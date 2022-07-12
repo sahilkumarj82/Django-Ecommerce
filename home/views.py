@@ -16,4 +16,10 @@ class HomeView(Base):
         self.views['sales'] = Product.objects.filter(labels = 'sale') # filtering products from labels from models
         self.views['news'] = Product.objects.filter(labels = 'new') # filtering products from labels from models
         
-        return render(request,'index.html') # --> for render
+        return render(request,'index.html',self.views) # --> for render
+
+class ProductDetaileView(Base):
+    def get(self,request,slug):
+        self.views['detailes'] = Product.objects.filter(slug = slug)
+
+        return render(request,'product-detail.html',self.views)
