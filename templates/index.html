@@ -10,7 +10,7 @@
                             <ul class="navbar-nav">
                             {% for categorie in categories %}
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#"><i class="fa fa-home"></i>{{categorie.name}}</a>
+                                    <a class="nav-link" href="/category/{{categorie.slug}}"><i class="fa fa-home"></i>{{categorie.name}}</a>
                                 </li>
                             {% endfor %}
                             </ul>
@@ -244,8 +244,8 @@
                                 </div>
                             </div>
                             <div class="product-price">
-                                {% if hot.discounted_price > 0 %}
-                                <h3><span>$</span>{{hot.discounted_price}}</h3>
+                                {% if hot.disconted_price > 0 %}
+                                <h3><span>$</span>{{hot.disconted_price}}</h3>
                                 {% else %}
                                 <h3><span>$</span>{{hot.price}}</h3>
                                 {% endif %}
@@ -307,7 +307,7 @@
                                 </div>
                             </div>
                             <div class="product-price">
-                                {% if hot.discounted_price > 0 %}
+                                {% if new.discounted_price > 0 %}
                                 <h3><span>$</span>{{new.discounted_price}}</h3>
                                 {% else %}
                                 <h3><span>$</span>{{new.price}}</h3>

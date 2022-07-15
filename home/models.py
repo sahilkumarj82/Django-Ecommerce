@@ -18,7 +18,7 @@ class Category(models.Model):
 
 #Model for Subcategory of Category
 class SubCategory(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length = 100)
     category = models.ForeignKey(Category,on_delete=models.CASCADE)
     icon = models.CharField(max_length=200,blank=True)
     slug = models.TextField(unique = True)
@@ -70,6 +70,7 @@ class Product(models.Model):
     slug = models.TextField(unique = True)
     labels = models.CharField(choices= LABELS,max_length=100)
     stock = models.CharField(choices= STOCK,max_length=100)
+    brand = models.ForeignKey(Brand,on_delete=models.CASCADE, default=1)
 
     def __str__(self):
         return self.name
@@ -80,7 +81,7 @@ class Review(models.Model):
     email = models.EmailField(max_length=400)
     Review = models.TextField(blank=True)
     slug = models.TextField()
-    date = models.DateField()
+    date = models.CharField(max_length=400)
 
     def __str__(self):
         return self.name
