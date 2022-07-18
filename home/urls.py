@@ -7,4 +7,5 @@ urlpatterns = [
     path('add_review', review, name='add_review'),
     path('category/<slug>', CategoryView.as_view(), name='category'),
     path('search', SearchView.as_view(), name='search'),
+    path('signup', signup, name='signup'),
 ]
