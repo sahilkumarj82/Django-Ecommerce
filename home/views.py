@@ -5,7 +5,8 @@ from .models import *
 from django.views.generic import View
 import datetime
 from django.contrib.auth.models import User
-from django.contrib import messages
+from django.contrib import messages,auth
+from django.contrib.auth import login,logout
 
 # Create your views here.
 
@@ -45,8 +46,10 @@ class ProductDetaileView(Base):
 
 def review(request,slug):
     if request.method == 'POST' :
-        name = request.POST['name']
-        email = request.POST['email']
+        # name = request.POST['name']
+        # email = request.POST['email']
+        name = request.user.username
+        email = request.user.email
         review = request.POST['review']
         x = datetime.datetime.now()
         date = x.strftime("%c")
@@ -117,3 +120,61 @@ def signup(request):
             return redirect('/signup')
 
     return render(request,'signup.html')
+
+def login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = auth.authenticate(username = username,password = password)
+        if user is not None:
+            auth.login(request,user)
+            return redirect('/')
+
+        else:
+            messages.error(request,'The username or password doesnot match')
+            return redirect('/login')
+
+    return render(request,'login.html')
+
+def logout(request):
+    auth.logout(request)
+    return redirect('/')
+
+def cal(slug):
+	price = Product.objects.get(slug = slug).price
+	discount_price = Product.objects.get(slug = slug).discount_price
+	if discount_price >0 :
+		actual_price = discount_price
+	else:
+		actual_price = price
+	try:
+		quantity = Cart.objects.get(slug = slug).quantity
+	except:
+		return actual_price
+
+	return quantity,actual_price
+
+def add_to_cart(request,slug):
+	username = request.user.username
+	if Cart.objects.filter(slug = slug,username = username,checkout = False).exists():
+		quantity,actual_price = cal(slug)
+		quantity = quantity+1
+		total = actual_price*quantity
+
+		Cart.objects.filter(slug = slug,username = username,checkout = False).update(
+			quantity = quantity,
+			total = total
+			)
+	else:# when user added product for first time in cart
+		actual_price= cal(slug)
+		data = Cart.objects.create(
+			username = username,
+			slug = slug,
+			total= actual_price,
+			items = Product.objects.filter(slug = slug)[0]
+			)
+		data.save()
+	return redirect('/')
+
+    

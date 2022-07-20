@@ -1,7 +1,7 @@
 from distutils.command.upload import upload
 from pydoc import describe
 from pyexpat import model
-from statistics import mode
+from statistics import mode, quantiles
 from telnetlib import STATUS
 from unicodedata import category
 from django.db import models
@@ -82,6 +82,18 @@ class Review(models.Model):
     Review = models.TextField(blank=True)
     slug = models.TextField()
     date = models.CharField(max_length=400)
+    point = models.IntegerField(default=1)
 
     def __str__(self):
         return self.name
+
+class Cart(models.Model):
+    username = models.CharField(max_length=300)
+    slug = models.TextField(max_length=500)
+    quantity = models.IntegerField(default=1)
+    total = models.FloatField()
+    checkout = models.BooleanField(default =False)
+    items = models.ForeignKey(Product,on_delete= models.CASCADE)
+
+    def __str__(self):
+        return self.username

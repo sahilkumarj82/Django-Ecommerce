@@ -23,7 +23,7 @@
                                 <img src="{{slider.image.url}}" alt="Slider Image" />
                                 <div class="header-slider-caption">
                                     <p>{{slider.text}}</p>
-                                    <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Shop Now</a>
+                                    <a class="btn" href="#"><i class="fa fa-shopping-cart"></i>Shop Now</a>
                                 </div>
                             </div>
                         {% endfor %}
@@ -238,7 +238,7 @@
                                     <img src="{{hot.image.url}}" alt="Product Image">
                                 </a>
                                 <div class="product-action">
-                                    <a href="#"><i class="fa fa-cart-plus"></i></a>
+                                    <a href="/add_to_cart/{{hot.slug}}"><i class="fa fa-cart-plus"></i></a>
                                     <a href="#"><i class="fa fa-heart"></i></a>
                                     <a href="#"><i class="fa fa-search"></i></a>
                                 </div>
@@ -249,7 +249,7 @@
                                 {% else %}
                                 <h3><span>$</span>{{hot.price}}</h3>
                                 {% endif %}
-                                <a class="btn" href=""><i class="fa fa-shopping-cart"></i>Buy Now</a>
+                                <a class="btn" href="/add_to_cart/{{hot.slug}}"><i class="fa fa-shopping-cart"></i>Buy Now</a>
                             </div>
                         </div>
                     </div>
