@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+        
+        <!-- Breadcrumb Start -->
+        <div class="breadcrumb-wrap">
+            <div class="container-fluid">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a href="#">Products</a></li>
+                    <li class="breadcrumb-item active">Wishlist</li>
+                </ul>
+            </div>
+        </div>
+        <!-- Breadcrumb End -->
+        
+        <!-- Wishlist Start -->
+        <div class="wishlist-page">
+            <div class="container-fluid">
+                <div class="wishlist-page-inner">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Price</th>
+                                            <th>Quantity</th>
+                                            <th>Add to Cart</th>
+                                            <th>Remove</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="align-middle">
+                                        {% for wishlist in my_wishlist %}
+                                        <tr>
+                                            <td>
+                                                <div class="img">
+                                                    <a href="#"><img src="{{wishlist.items.image.url}}" alt="Image"></a>
+                                                    <p>{{wishlist.items.name}}</p>
+                                                </div>
+                                            </td>
+                                            {% if wishlist.items.discount_price > 0 %}
+                                            <td>${{wishlist.items.discount_price}}</td>
+                                            {% else %}
+                                            <td>${{wishlist.items.price}}</td>
+                                            {% endif %}
+                                            <td>
+                                                <div class="qty">
+                                                    <a href = "remove-wishlist/{{wishlist.slug}}"><button class="btn-minus"><i class="fa fa-minus"></i></button></a>
+                                                    <input type="text" value="{{wishlist.quantity}}">
+                                                    <a href = "add_to_wishlist/{{wishlist.slug}}"><button class="btn-plus" ><i class="fa fa-plus"></i></button></a>
+                                                </div>
+                                            </td>
+                                            <td><a href="/add_to_cart/{{hot.slug}}"><button class="btn-cart">Add to Cart</button></a></td>
+                                            <td><a href = "delete-wishlist/{{wishlist.slug}}"><button><i class="fa fa-trash"></i></button></a></td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Wishlist End -->
+        
+    {% endblock %}
