@@ -175,6 +175,39 @@ def add_to_cart(request,slug):
 			items = Product.objects.filter(slug = slug)[0]
 			)
 		data.save()
-	return redirect('/')
+	return redirect('/my_cart')
+
+
+def delete_cart(request,slug):
+    username = request.user.username
+    Cart.objects.filter(slug = slug,username = username , checkout = False).delete()
+    return redirect('/my_cart')
+
+def remove_cart(request,slug):
+    username = request.user.username
+    if Cart.objects.filter(slug = slug,username = username,checkout = False).exists():
+        quantity,actual_price = cal(slug)
+        if quantity>1:
+            quantity = quantity-1
+            total = actual_price*quantity
+
+            Cart.objects.filter(slug = slug,username = username,checkout = False).update(
+                quantity=quantity,
+                total=total
+            )
+        return redirect('/my_cart')
+
+class CartView(Base):
+    def get(self,request):
+        username = request.user.username
+        self.views['my_cart'] = Cart.objects.filter(username = request.user.username, checkout = False)
+        return render(request,'cart.html',self.views)
+
+
+
+
+
+
+
 
     
